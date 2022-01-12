@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "sudoku.h"
 #include "sudoku_math.h"
+#define COOLING_RATE 0.99
 
 void rand_coord(int *x, int *y)
 {
