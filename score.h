@@ -61,6 +61,10 @@ void update_score(int pscore[SUDOKU_SIZE * 2], int psudoku[SUDOKU_SIZE][SUDOKU_S
             }
         }
     }
+    if (xa != 8)
+    {
+        pscore[xa]--;
+    }
     //xb
 
     pscore[xb] = 0;
@@ -76,6 +80,10 @@ void update_score(int pscore[SUDOKU_SIZE * 2], int psudoku[SUDOKU_SIZE][SUDOKU_S
                 found++;
             }
         }
+    }
+    if (xb != 8)
+    {
+        pscore[xb]--;
     }
     //ya
 

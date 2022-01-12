@@ -7,6 +7,7 @@ void main()
     int score[SUDOKU_SIZE * 2] = {0};
     int iterations = SUDOKU_SIZE * SUDOKU_SIZE;
     srand(time(NULL));
+    /*
     for (int x = 0; x < SUDOKU_SIZE; x++)
     {
         for (int y = 0; y < SUDOKU_SIZE; y++)
@@ -18,6 +19,18 @@ void main()
             }
         }
     }
+    */
+    sudoku[0][0] = 4;
+    sudoku[0][2] = 1;
+    sudoku[4][1] = 2;
+    sudoku[5][3] = 3;
+    sudoku[4][7] = 5;
+    sudoku[4][4] = 6;
+    sudoku[5][8] = 7;
+    sudoku[2][5] = 8;
+    sudoku[5][2] = 9;
+    sudoku[8][8] = 4;
+    sudoku[7][5] = 1;
 
     populate_sudoku(sudoku);
 
@@ -49,7 +62,8 @@ void main()
         for (int counter = 0; counter < iterations; counter++)
         {
             random_positions(&xa, &ya, &xb, &yb);
-            swap_sudoku(xa, ya, xb, xb, temp_sudoku);
+            //printf("??%d %d  -  %d %d\n", xa, ya, xb, yb);
+            swap_sudoku(xa, ya, xb, yb, temp_sudoku);
             update_score((int *)&temp_score, temp_sudoku, xa, ya, xb, yb);
             new_score = total_score(temp_score);
 
@@ -75,7 +89,10 @@ void main()
 
         if (cscore <= 0)
         {
-            printf("Amogus");
+            printf("Amogus\n");
+            printf("Score -> %d \n", cscore);
+            print_sudoku(sudoku);
+            break;
         }
         else
         {
@@ -86,10 +103,17 @@ void main()
                 memcpy(score, temp_score, sizeof(int) * SUDOKU_SIZE * 2);
                 printf("Score -> %d \n", cscore);
                 print_sudoku(sudoku);
+                for (int tt = 0; tt < 18; tt++)
+                {
+                    printf("[%d]", score[tt]);
+                }
+                printf("\n");
             }
 
             else
             {
+                //printf("fail.. %d\n", new_score);
+                //print_sudoku(temp_sudoku);
                 memcpy(temp_sudoku, sudoku, sizeof(int) * SUDOKU_SIZE * SUDOKU_SIZE);
                 memcpy(temp_score, score, sizeof(int) * SUDOKU_SIZE * 2);
                 attempts++;

@@ -40,7 +40,7 @@ float get_sigma(int pscore[SUDOKU_SIZE * 2], int psudoku[SUDOKU_SIZE][SUDOKU_SIZ
     for (int attempt = 0; attempt < ANNEAL_TEMP_SAMPLE; attempt++)
     {
         random_positions(&xa, &ya, &xb, &yb);
-        swap_sudoku(xa, ya, xb, xb, temp_sudoku);
+        swap_sudoku(xa, ya, xb, yb, temp_sudoku);
         update_score((int *)&temp_score, temp_sudoku, xa, ya, xb, yb);
         n_score[attempt] += (float)total_score((int *)&temp_score);
     }
