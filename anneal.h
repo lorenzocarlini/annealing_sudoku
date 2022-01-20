@@ -26,7 +26,7 @@ void simulated_annealing(int sstate, int k_max)
     }
 }
 
-float get_sigma(int pscore[SUDOKU_SIZE * 2], int psudoku[SUDOKU_SIZE][SUDOKU_SIZE])
+float get_sigma(int pscore[SUDOKU_SIZE * 2], int psudoku[SUDOKU_SIZE][SUDOKU_SIZE], int mask[SUDOKU_SIZE][SUDOKU_SIZE])
 {
     int temp_sudoku[SUDOKU_SIZE][SUDOKU_SIZE];
     memcpy(temp_sudoku, psudoku, sizeof(int) * SUDOKU_SIZE * SUDOKU_SIZE);
@@ -39,10 +39,11 @@ float get_sigma(int pscore[SUDOKU_SIZE * 2], int psudoku[SUDOKU_SIZE][SUDOKU_SIZ
     //printf("%d\n", pscore[11]);
     for (int attempt = 0; attempt < ANNEAL_TEMP_SAMPLE; attempt++)
     {
-        random_positions(&xa, &ya, &xb, &yb);
+        random_positions(&xa, &ya, &xb, &yb, mask, pscore);
         swap_sudoku(xa, ya, xb, yb, temp_sudoku);
-        update_score((int *)&temp_score, temp_sudoku, xa, ya, xb, yb);
-        n_score[attempt] += (float)total_score((int *)&temp_score);
+        printf("pointer d %p\n", &temp_score);
+        update_score(&temp_score, temp_sudoku, xa, ya, xb, yb);
+        n_score[attempt] += (float)total_score(&temp_score);
     }
     //printf("nscore 0 %f \n", n_score[0]);
     return calculateSD(n_score);

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 void init_score(int *pscore, int psudoku[SUDOKU_SIZE][SUDOKU_SIZE])
 {
@@ -121,6 +122,7 @@ void update_score(int pscore[SUDOKU_SIZE * 2], int psudoku[SUDOKU_SIZE][SUDOKU_S
             }
         }
     }
+    //printf("totalus %d\n", total_score(pscore));
 }
 
 int total_score(int pscore[ANNEAL_TEMP_SAMPLE])

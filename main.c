@@ -1,9 +1,11 @@
 #include "anneal.h"
 #include "score.h"
+#include <pthread.h>
+#include "solve.h"
 
 void main()
 {
-    int sudoku[SUDOKU_SIZE][SUDOKU_SIZE] = {0};
+    //int sudoku[SUDOKU_SIZE][SUDOKU_SIZE] = {0};
     int score[SUDOKU_SIZE * 2] = {0};
     int iterations = SUDOKU_SIZE * SUDOKU_SIZE;
     srand(time(NULL));
@@ -20,6 +22,7 @@ void main()
         }
     }
     */
+    /*
     sudoku[0][0] = 4;
     sudoku[0][2] = 1;
     sudoku[4][1] = 2;
@@ -31,8 +34,22 @@ void main()
     sudoku[5][2] = 9;
     sudoku[8][8] = 4;
     sudoku[7][5] = 1;
+    */
+    int sudoku[9][9] = {
+        {0, 0, 0, 0, 0, 0, 8, 2, 0},
+        {0, 2, 0, 3, 7, 0, 0, 5, 0},
+        {1, 0, 0, 8, 0, 4, 0, 7, 3},
+        {0, 7, 6, 9, 0, 0, 2, 0, 4},
+        {0, 0, 0, 7, 0, 2, 0, 0, 0},
+        {2, 0, 8, 0, 0, 1, 7, 3, 0},
+        {4, 1, 0, 6, 0, 5, 0, 0, 7},
+        {0, 5, 0, 0, 3, 8, 0, 9, 0},
+        {0, 8, 3, 0, 0, 0, 0, 0, 0}};
 
-    populate_sudoku(sudoku);
+    int mask[9][9] = {0};
+    populate_sudoku(sudoku, mask);
+    printf("sus\n");
+    print_sudoku(mask);
 
     init_score((int *)&score, sudoku);
     //printf("score 9 %d\n", score[9]);
@@ -40,7 +57,7 @@ void main()
     int cscore = total_score(score);
     printf("total score -> %d\n", cscore);
     print_sudoku(sudoku);
-    float sigma = get_sigma(score, sudoku);
+    float sigma = get_sigma(score, sudoku, mask);
     printf("Sigma: %f\n", sigma);
 
     int new_score;
@@ -51,41 +68,14 @@ void main()
     int temp_score[SUDOKU_SIZE * 2];
     memcpy(temp_score, score, sizeof(int) * SUDOKU_SIZE * 2);
     int xa, ya, xb, yb;
-
-    int backup_sudoku[SUDOKU_SIZE][SUDOKU_SIZE];
-    memcpy(backup_sudoku, sudoku, sizeof(int) * SUDOKU_SIZE * SUDOKU_SIZE);
-    int backup_score[SUDOKU_SIZE * 2];
-    memcpy(backup_score, score, sizeof(int) * SUDOKU_SIZE * 2);
+    int control = 0;
 
     while (score != 0)
     {
-        for (int counter = 0; counter < iterations; counter++)
-        {
-            random_positions(&xa, &ya, &xb, &yb);
-            //printf("??%d %d  -  %d %d\n", xa, ya, xb, yb);
-            swap_sudoku(xa, ya, xb, yb, temp_sudoku);
-            update_score((int *)&temp_score, temp_sudoku, xa, ya, xb, yb);
-            new_score = total_score(temp_score);
 
-            double rho = (exp(-(new_score - cscore) / sigma));
-            int ext = (double)(rand() % 3);
-            if (ext == 2)
-            {
-                ext--;
-            }
-            sigma *= COOLING_RATE;
-
-            if (!(ext < rho))
-            {
-                memcpy(temp_sudoku, sudoku, sizeof(int) * SUDOKU_SIZE * SUDOKU_SIZE);
-                memcpy(temp_score, score, sizeof(int) * SUDOKU_SIZE * 2);
-            }
-            else
-            {
-
-                //printf("tempscore -> %d, sigma -> %f\n", new_score, sigma);
-            }
-        }
+        attempt_new(temp_score, score, temp_sudoku, sudoku, mask, &control, sigma, iterations, cscore, &new_score);
+        //printf("new score %d\n", new_score);
+        //printf("new score %d\n", new_score);
 
         if (cscore <= 0)
         {
@@ -107,6 +97,7 @@ void main()
                 {
                     printf("[%d]", score[tt]);
                 }
+                //printf("xa %d ya %d xb %d yb %d\n", xa, ya, xb, yb);
                 printf("\n");
             }
 
