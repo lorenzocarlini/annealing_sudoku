@@ -48,7 +48,7 @@ void update_score(int pscore[SUDOKU_SIZE * 2], int psudoku[SUDOKU_SIZE][SUDOKU_S
 {
     //xa
     int found = 0;
-    pscore[xa] = 0;
+    pscore[xa] = 1;
     for (int counter = 0; counter <= SUDOKU_SIZE; counter++)
     {
         found = 0;
@@ -88,7 +88,7 @@ void update_score(int pscore[SUDOKU_SIZE * 2], int psudoku[SUDOKU_SIZE][SUDOKU_S
     }
     //ya
 
-    pscore[ya + 9] = 0;
+    pscore[ya + 9] = 1;
     //printf("ya - %d", ya);
     for (int counter = 0; counter < SUDOKU_SIZE; counter++)
     {

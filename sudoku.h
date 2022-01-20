@@ -83,7 +83,6 @@ void swap_sudoku(int xa, int ya, int xb, int yb, int psudoku[SUDOKU_SIZE][SUDOKU
     //printf("[%d,%d][%d,%d]\n", xa, ya, xb, yb);
 }
 
-/*
 void random_positions(int *xa, int *ya, int *xb, int *yb, int mask[SUDOKU_SIZE][SUDOKU_SIZE], int score[SUDOKU_SIZE * 2])
 {
     int notgood = 1;
@@ -108,7 +107,7 @@ void random_positions(int *xa, int *ya, int *xb, int *yb, int mask[SUDOKU_SIZE][
             notgood = 0;
         }
     }
-}*/
+}
 
 /*
 void random_positions(int *xa, int *ya, int *xb, int *yb, int mask[SUDOKU_SIZE][SUDOKU_SIZE], int score[SUDOKU_SIZE * 2])
@@ -166,7 +165,7 @@ void random_positions(int *xa, int *ya, int *xb, int *yb, int mask[SUDOKU_SIZE][
     }
 }
 */
-
+/*
 void random_positions(int *xa, int *ya, int *xb, int *yb, int mask[SUDOKU_SIZE][SUDOKU_SIZE], int score[SUDOKU_SIZE * 2])
 {
     int notgoodcoord = 1;
@@ -234,3 +233,4 @@ void random_positions(int *xa, int *ya, int *xb, int *yb, int mask[SUDOKU_SIZE][
 
     //printf(">>[%d][%d] - [%d][%d]\n", *xa, *ya, *xb, *yb);
 }
+*/
